@@ -1,12 +1,11 @@
 import streamlit as st
 
-# Your other imports like gsheets here...
-
-# ✨ Injecting the custom CSS for SF Pro Display
 st.markdown("""
     <style>
-    html, body, [class*="st-"] {
-        font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+    
+    html, body, [class*="css"], [class*="st-"] {
+        font-family: 'SF Pro Display', sans-serif !important;
     }
     </style>
     """, unsafe_allow_html=True)
