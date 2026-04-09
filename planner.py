@@ -1,0 +1,84 @@
+import streamlit as st
+import json
+import os
+from datetime import datetime
+
+# --- THE DATABASE SETUP ---
+# This tells the app where to save your tasks so they never disappear
+TODO_FILE = "todo_data.json"
+
+def load_todos():
+    # If the file exists, open it and read the data
+    if os.path.exists(TODO_FILE):
+        with open(TODO_FILE, "r") as f:
+            return json.load(f)
+    # If it's your first time opening the app, start with an empty dictionary
+    return {}
+
+def save_todos(data):
+    # Save the updated tasks back to the file
+    with open(TODO_FILE, "w") as f:
+        json.dump(data, f)
+
+# --- PAGE SETUP ---
+st.set_page_config(page_title="My Daily Planner", page_icon="📝", layout="centered")
+st.title("✨ The Master Productivity Hub")
+
+# Load your saved tasks into memory
+todos = load_todos()
+
+# --- CALENDAR NAVIGATION ---
+st.write("### 📅 Time Traveler Navigation")
+st.write("Click the date below to switch years, months, or days.")
+
+# This one line creates the entire interactive calendar and defaults to TODAY!
+selected_date = st.date_input("Viewing To-Do List for:", datetime.today())
+date_str = str(selected_date) # Convert date to a string so we can save it easily
+
+# If you haven't looked at this specific date before, create a blank list for it
+if date_str not in todos:
+    todos[date_str] = []
+
+st.divider()
+
+# --- THE TO-DO LIST ---
+st.subheader(f"📌 Your Missions for {selected_date.strftime('%B %d, %Y')}")
+
+# 1. Displaying your existing tasks
+if not todos[date_str]:
+    st.info("No tasks for this day yet. You're completely free! 🍃")
+else:
+    for i, task in enumerate(todos[date_str]):
+        # Creating two columns: one for the checkbox, one for the delete button
+        col1, col2 = st.columns([0.85, 0.15])
+        
+        with col1:
+            # The Checkbox
+            is_done = st.checkbox(task['text'], value=task['done'], key=f"check_{date_str}_{i}")
+            
+            # If you click the checkbox, update the database and refresh the page
+            if is_done != task['done']:
+                todos[date_str][i]['done'] = is_done
+                save_todos(todos)
+                st.rerun()
+                
+        with col2:
+            # The Delete Button
+            if st.button("❌", key=f"del_{date_str}_{i}"):
+                todos[date_str].pop(i) # Remove the task
+                save_todos(todos) # Save the deletion
+                st.rerun() # Refresh
+
+st.write("") # Just a little blank space for layout
+
+# 2. Adding a new task
+# Using a 'form' so it only adds the task when you actually hit the submit button
+with st.form(key="add_task_form", clear_on_submit=True):
+    new_task = st.text_input("Add a new task (e.g., Quantum Mechanics prep, buy coffee...)")
+    submit = st.form_submit_button("Add Task ➕")
+    
+    if submit and new_task:
+        # Add the new task to today's list, defaulting to 'not done' (False)
+        todos[date_str].append({"text": new_task, "done": False})
+        save_todos(todos)
+        st.rerun()
