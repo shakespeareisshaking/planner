@@ -2,10 +2,10 @@ import streamlit as st
 
 st.markdown("""
     <style>
-    @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+    @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
     
     html, body, [class*="css"], [class*="st-"] {
-        font-family: 'SF Pro Display', sans-serif !important;
+        font-family: 'Josefin Sans', sans-serif !important;
     }
     </style>
     """, unsafe_allow_html=True)
