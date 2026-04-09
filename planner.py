@@ -1,11 +1,24 @@
 import streamlit as st
+
+# Your other imports like gsheets here...
+
+# ✨ Injecting the custom CSS for SF Pro Display
+st.markdown("""
+    <style>
+    html, body, [class*="st-"] {
+        font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# The rest of your app code goes down here...
 from streamlit_gsheets import GSheetsConnection
 import pandas as pd
 from datetime import datetime
 
 # --- PAGE SETUP ---
 st.set_page_config(page_title="Cloud Planner", page_icon="☁️", layout="centered")
-st.title("☁️ The Forever-Saved Planner")
+st.title("Moi's Planner")
 
 # --- DATABASE CONNECTION ---
 # This connects to the URL you will provide in the "Secrets" section later
