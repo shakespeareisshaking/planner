@@ -29,7 +29,6 @@ def get_data():
 
 # --- CALENDAR NAVIGATION ---
 selected_date = st.date_input("Viewing To-Do List for:", datetime.today())
-date_str = selected_date.strftime('%Y-%m-%d')
 date_str = selected_date.strftime('%d-%m-%Y')
 
 
