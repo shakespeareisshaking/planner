@@ -43,7 +43,7 @@ st.subheader(f"📌 Missions for {selected_date.strftime('%B %d, %Y')}")
 todays_tasks = df[df['date'] == date_str]
 
 if todays_tasks.empty:
-    st.info("No tasks for today. Chill vibes only. 🍃")
+    st.info("No tasks for today. chill!!")
 else:
     for index, row in todays_tasks.iterrows():
         col1, col2 = st.columns([0.8, 0.2])
